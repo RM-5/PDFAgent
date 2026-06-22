@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+
+# ChromaDB 
+chroma_db/
+
+# Outputs — generated at runtime
+outputs/
+
+# Mac
+.DS_Store

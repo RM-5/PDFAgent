@@ -17,14 +17,14 @@ and answers them with relative precision to the content in the provided document
 
 PDFAgent/
 └── app/
-    ├── main.py
-    ├── configs/settings.py
-    ├── db/vectorstore.py
-    ├── models/schemas.py
-    ├── routers/rag.py
-    ├── services/loader.py
-    ├── services/qa_chain.py
-    └── utils/file_utils.py
+├── main.py
+├── configs/settings.py
+├── db/vectorstore.py
+├── models/schemas.py
+├── routers/rag.py
+├── services/loader.py
+├── services/qa_chain.py
+└── utils/file_utils.py
 
 ## Setup
 In your Mac/Linux terminal, run:

@@ -16,23 +16,24 @@ and answers them with relative precision to the content in the provided document
 ## Project Structure
 
 PDFAgent/
-└── app/
 
-  ├── main.py
+  └── app/
 
-  ├── configs/settings.py
+      ├── main.py
 
-  ├── db/vectorstore.py
+      ├── configs/settings.py
 
-  ├── models/schemas.py
+      ├── db/vectorstore.py
 
-  ├── routers/rag.py
+      ├── models/schemas.py
 
-  ├── services/loader.py
+      ├── routers/rag.py
 
-  ├── services/qa_chain.py
+      ├── services/loader.py
 
-  └── utils/file_utils.py
+      ├── services/qa_chain.py
+  
+      └── utils/file_utils.py
 
 ## Setup
 In your Mac/Linux terminal, run:

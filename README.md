@@ -19,21 +19,21 @@ PDFAgent/
 
   └── app/
 
-    ├── main.py
+  ├── main.py
 
-    ├── configs/settings.py
+  ├── configs/settings.py
 
-    ├── db/vectorstore.py
+  ├── db/vectorstore.py
 
-    ├── models/schemas.py
+  ├── models/schemas.py
 
-    ├── routers/rag.py
+  ├── routers/rag.py
 
-    ├── services/loader.py
+  ├── services/loader.py
 
-    ├── services/qa_chain.py
+  ├── services/qa_chain.py
   
-    └── utils/file_utils.py
+  └── utils/file_utils.py
 
 ## Setup
 In your Mac/Linux terminal, run:

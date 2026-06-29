@@ -5,6 +5,7 @@ from pathlib import Path
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 
+from app.configs.settings import DEFAULT_CHUNK_SIZE
 from app.models.schemas import (
     HealthResponse,
     IngestResponse,
@@ -37,7 +38,7 @@ def stats(rag: RAGSystem = Depends(get_rag)):
 @router.post("/ingest/file")
 async def ingest_file(
     file: UploadFile = File(...),
-    chunk_size: int = Form(800),
+    chunk_size: int = Form(DEFAULT_CHUNK_SIZE),
     rag: RAGSystem = Depends(get_rag),
 ):
     suffix   = Path(file.filename).suffix
@@ -47,7 +48,11 @@ async def ingest_file(
         tmp_path = Path(tmp.name)
 
     try:
-        info                  = rag.ingest(tmp_path, chunk_size=chunk_size)
+        info = rag.ingest(
+            tmp_path,
+            chunk_size=chunk_size,
+            original_name=file.filename,
+        )
         info["original_name"] = file.filename
         return info
     except Exception as e:
@@ -70,7 +75,7 @@ def query(req: QueryRequest, rag: RAGSystem = Depends(get_rag)):
     if rag.stats()["total_chunks"] == 0:
         raise HTTPException(status_code=400, detail="No documents indexed. Please /ingest first.")
     try:
-        return rag.query(req.question)
+        return rag.query(req.question, k=req.k)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

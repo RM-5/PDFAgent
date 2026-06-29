@@ -5,12 +5,12 @@ from pydantic import BaseModel
 
 class QueryRequest(BaseModel):
     question: str
-    k: int = 5
+    k: int = 10
 
 
 class IngestURLRequest(BaseModel):
     url: str
-    chunk_size: int = 800
+    chunk_size: int = 1200
 
 
 class IngestResponse(BaseModel):

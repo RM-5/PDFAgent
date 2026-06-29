@@ -22,7 +22,7 @@ logging.basicConfig(
  
 app = FastAPI(
     title="Multi-Format RAG API",
-    description="Ingest PDFs, DOCX, PPTX, HTML, images and query them with Qwen via Ollama",
+    description="Ingest PDFs, DOCX, PPTX, HTML, and query them with Qwen via Ollama",
     version="1.0.0",
 )
  

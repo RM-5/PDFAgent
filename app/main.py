@@ -12,7 +12,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
  
 from app.routers import rag as rag_router
+from app.routers import auth as auth_router
+from app.routers import history as history_router
 from app.services.qa_chain import RAGSystem
+from app.db.database import engine, Base
  
 logging.basicConfig(
     level=logging.INFO,
@@ -48,7 +51,9 @@ def get_rag() -> RAGSystem:
  
 app.dependency_overrides[rag_router.get_rag] = get_rag
  
-app.include_router(rag_router.router)
+app.include_router(auth_router.router,    prefix="/auth",    tags=["auth"])
+app.include_router(history_router.router, prefix="/history", tags=["history"])
+app.include_router(rag_router.router,     tags=["rag"])
  
  
 if __name__ == "__main__":

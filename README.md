@@ -5,7 +5,7 @@ up to 300-400 pages — across formats including PDF, PPTX, DOCX, XLSX,
 HTML, and images, and lets you ask natural language questions against their
 full content.
  
-No data leaves your device. No API keys. No cloud.
+No data leaves your device and it involves No API keys.
  
 ## Stack
 - **Docling** — parses PDF, PPTX, DOCX, tables, images

@@ -15,13 +15,13 @@ DEFAULT_RETRIEVAL_K   = int(os.getenv("DEFAULT_RETRIEVAL_K", "10"))
 MAX_RETRIEVAL_K       = int(os.getenv("MAX_RETRIEVAL_K", "18"))
 MAX_CONTEXT_TOKENS    = int(os.getenv("MAX_CONTEXT_TOKENS", "8000"))
 
-# Ollama generation — keep context modest; large num_ctx slows every request on local GPU/CPU
+# Ollama generation to keep context modest. Large num_ctx slows every request on local GPU/CPU
 LLM_NUM_CTX           = int(os.getenv("LLM_NUM_CTX", "8192"))
 LLM_NUM_PREDICT       = int(os.getenv("LLM_NUM_PREDICT", "1536"))
 LLM_NUM_PREDICT_BROAD = int(os.getenv("LLM_NUM_PREDICT_BROAD", "2048"))
 LLM_TEMPERATURE       = float(os.getenv("LLM_TEMPERATURE", "0.1"))
 
-# Skip heavy debug JSON dumps during ingest (much faster indexing)
+# Skip heavy debug JSON dumps during ingest. This makes indexing much faster, but you won't have the debug artifacts to inspect if something goes wrong.
 SAVE_DEBUG_ARTIFACTS  = os.getenv("SAVE_DEBUG_ARTIFACTS", "false").lower() in ("1", "true", "yes")
  
 CHROMA_DIR  = str(PROJECT_DIR / "chroma_db")

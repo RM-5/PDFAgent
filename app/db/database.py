@@ -6,8 +6,7 @@ from collections.abc import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.orm import declarative_base
 
-# ── Connection string ──────────────────────────────────────────────────────────
-# Set this in your .env file. Example:
+# Set this in your .env file. You can set it to whatever user and password you want. For example:
 # DATABASE_URL=postgresql+asyncpg://pdfagent_user:yourpassword@localhost:5432/pdfagent
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://pdfagent_user:yourpassword@localhost:5432/pdfagent")
 

@@ -8,10 +8,10 @@ venv/
 # ChromaDB 
 chroma_db/
 
-# Outputs — generated at runtime
+
 outputs/
 
-# Mac
+
 .DS_Store
 .env
 .env

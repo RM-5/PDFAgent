@@ -54,14 +54,14 @@ class DoclingLoader:
  
  
 def _get_table_page(tbl: dict) -> int:
-    """Return the page number from the first prov entry of a table."""
+    # Return the page number from the first prov entry of a table.
     for prov in tbl.get("prov", []):
         return prov.get("page_no", 1)
     return 1
  
  
 def _get_col_count(tbl: dict) -> int:
-    """Return the number of columns from the first row of a table grid."""
+    # Return the number of columns from the first row of a table grid.
     grid = tbl.get("data", {}).get("grid", [])
     if grid:
         return len(grid[0])
@@ -69,12 +69,6 @@ def _get_col_count(tbl: dict) -> int:
  
  
 def _looks_like_header(row: list[dict], ref_header: list[dict]) -> bool:
-    """Check if *row* repeats the same column names as *ref_header*.
- 
-    A continuation table's first row will contain data values (e.g. "4",
-    "Pond or Lake Ecosystem") rather than column titles (e.g. "Sr.No.",
-    "Type of Ecosystem").  We compare lowered/stripped cell text.
-    """
     if len(row) != len(ref_header):
         return False
     matches = sum(
@@ -86,17 +80,6 @@ def _looks_like_header(row: list[dict], ref_header: list[dict]) -> bool:
  
  
 def _merge_cross_page_tables(tables: list[dict]) -> list[dict]:
-    """Merge continuation tables that span across consecutive pages.
- 
-    A table on page N+1 is considered a continuation of a table on page N if:
-      - They have the same number of columns.
-      - The pages are consecutive.
-      - The continuation table's first row does NOT repeat the header of the
-        preceding table (i.e. it contains data, not column titles).
- 
-    Returns a new list of table dicts.  Merged tables carry an extra key
-    ``_merged_pages`` recording the page range (e.g. [16, 17]).
-    """
     if not tables:
         return tables
  
@@ -136,7 +119,6 @@ def _merge_cross_page_tables(tables: list[dict]) -> list[dict]:
                 and next_grid
                 and not _looks_like_header(next_grid[0], header_row)
             ):
-                # This is a continuation — merge its rows
                 merged_grid.extend(next_grid)
                 merged_pages.append(next_page)
                 skip.add(j)
@@ -149,7 +131,7 @@ def _merge_cross_page_tables(tables: list[dict]) -> list[dict]:
                 break
  
         # Build the (possibly merged) table entry
-        merged_tbl = dict(tbl)  # shallow copy
+        merged_tbl = dict(tbl) 
         merged_tbl["data"] = dict(tbl.get("data", {}))
         merged_tbl["data"]["grid"] = merged_grid
  
@@ -177,7 +159,7 @@ def _pages_to_lc_docs(pages: dict, raw_json: dict, source: str) -> list[Document
             text  = item.get("text", "").strip()
             label = item.get("label", "")       
  
-            # Strip PDF watermark noise (e.g. "lOMoARcPSD|30440209")
+            # Strip PDF watermark noise 
             text = re.sub(r"lOMoARcPSD\|\d+", "", text).strip()
  
             if not text or pg not in page_data:
@@ -197,11 +179,11 @@ def _pages_to_lc_docs(pages: dict, raw_json: dict, source: str) -> list[Document
             else:
                 page_data[pg]["texts"].append(text)
  
-    # ── Merge tables that span consecutive pages ──────────────────────────
+    # Merge tables that span consecutive pages 
     merged_tables = _merge_cross_page_tables(raw_json.get("tables", []))
 
     for tbl in merged_tables:
-        # Attach the full (possibly merged) table to its *first* page
+        # Attach the full table to its first page
         pg = _get_table_page(tbl)
         if pg not in page_data:
             continue

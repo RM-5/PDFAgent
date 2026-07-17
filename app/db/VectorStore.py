@@ -55,7 +55,6 @@ class VectorStore:
         )
         log.info("ChromaDB collection '%s' ready (%d chunks)", COLLECTION, self.collection.count())
  
-    # ── Public ────────────────────────────────────────────────────────────────
  
     def add_documents(
         self,
@@ -66,7 +65,7 @@ class VectorStore:
     ) -> int:
         stem = get_stem(source)
  
-        # ── Section-aware chunking ────────────────────────────────────────────
+        # Section-aware chunking 
         # Pages that are headings or short get smaller chunks
         # Pages with tables/figures get larger chunks to preserve context
         chunks = []
@@ -77,11 +76,9 @@ class VectorStore:
  
             # Adjust chunk size based on content type
             if label in ("section_header", "title"):
-                # Headings are short — keep as single chunk, no splitting
                 chunks.append(doc)
                 continue
             elif has_table or has_figure:
-                # Tables and figures need bigger chunks to stay intact
                 c_size    = max(chunk_size, 3000)
                 c_overlap = 200
             else:
@@ -97,7 +94,7 @@ class VectorStore:
             split = splitter.split_documents([doc])
             chunks.extend(split)
  
-        # ── Filter junk chunks ────────────────────────────────────────────────
+        # Filter junk chunks 
         chunks = self._filter_chunks(chunks)
  
         texts     = [c.page_content for c in chunks]
@@ -145,7 +142,7 @@ class VectorStore:
         if total == 0:
             return []
 
-        # Small oversample for page diversity — avoid scanning the whole index
+        # Small oversample for page diversity to avoid scanning the whole index
         extra     = 6 if broad else 3
         fetch_k   = min(k + extra, total, MAX_RETRIEVAL_K + extra)
         candidates = self.similarity_search(query, k=fetch_k)
@@ -157,8 +154,7 @@ class VectorStore:
 
         return self._fit_context_budget(selected)
 
-    # ── Helpers ───────────────────────────────────────────────────────────────
-
+    # Helpers
     @staticmethod
     def _format_hits(results: dict) -> list[dict[str, Any]]:
         if not results["documents"] or not results["documents"][0]:
@@ -200,7 +196,7 @@ class VectorStore:
                 selected.append(best)
                 seen_ids.add(key)
 
-        # Round 2: fill with remaining high-scoring chunks
+        # Round 2: fill with remaining high scoring chunks
         for hit in sorted(candidates, key=lambda h: h["distance"]):
             if len(selected) >= k:
                 break
@@ -218,7 +214,7 @@ class VectorStore:
         selected: list[dict[str, Any]] = []
         used = 0
         for hit in hits:
-            tokens = self.tiktoken_len(hit["text"]) + 40  # header overhead
+            tokens = self.tiktoken_len(hit["text"]) + 40  
             if selected and used + tokens > max_tokens:
                 break
             selected.append(hit)
@@ -241,7 +237,6 @@ class VectorStore:
         )
         log.info("Collection cleared.")
  
-    # ── Helpers ───────────────────────────────────────────────────────────────
  
     def tiktoken_len(self, text: str) -> int:
         if self.encoding is None:
@@ -251,8 +246,7 @@ class VectorStore:
     def _filter_chunks(self, chunks: list) -> list:
         filtered = []
         for chunk in chunks:
-            # Strip PDF watermark patterns (e.g. "lOMoARcPSD|30440209")
-            # instead of discarding the entire chunk
+            # Strip PDF watermark patterns 
             text = re.sub(r"lOMoARcPSD\|\d+", "", chunk.page_content).strip()
             if text != chunk.page_content.strip():
                 chunk.page_content = text

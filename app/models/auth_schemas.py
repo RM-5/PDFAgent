@@ -6,7 +6,7 @@ from datetime import datetime
 from pydantic import BaseModel, EmailStr
 
 
-# ── Auth ──────────────────────────────────────────────────────────────────────
+# Auth
 
 class UserCreate(BaseModel):
     email: EmailStr
@@ -32,7 +32,7 @@ class Token(BaseModel):
     token_type: str = "bearer"
 
 
-# ── History ───────────────────────────────────────────────────────────────────
+# History
 
 class MessageResponse(BaseModel):
     id: uuid.UUID

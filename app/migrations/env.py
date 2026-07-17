@@ -9,23 +9,20 @@ from sqlalchemy import pool
  
 from alembic import context
  
-# ── Make sure the app package is importable ──────────────────────────────────
+# Make sure the app package is importable 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
  
-# ── Load .env so DATABASE_URL is available ───────────────────────────────────
-# Explicit path — .env lives at PDFAgent/.env, this file is at PDFAgent/app/migrations/env.py
+# Load .env so DATABASE_URL is available
 env_path = Path(__file__).parent.parent.parent / ".env"
 load_dotenv(dotenv_path=env_path)
  
-# ── Import your models so autogenerate can see them ──────────────────────────
+# Import your models so autogenerate can see them
 from app.db.database import Base
-from app.db import models  # noqa: F401 — imported so Base.metadata picks up all tables
- 
-# this is the Alembic Config object, which provides
-# access to the values within the .ini file in use.
+from app.db import models 
+# this is the Alembic Config object, which provides access to the values within the .ini file in use.
 config = context.config
  
-# ── Override the URL from alembic.ini with the one from .env ─────────────────
+# Override the URL from alembic.ini with the one from .env 
 # Alembic runs synchronously, so strip the +asyncpg driver suffix
 db_url = os.getenv("DATABASE_URL", "")
 if not db_url:
@@ -48,17 +45,13 @@ target_metadata = Base.metadata
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
-# ... etc.
- 
  
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
  
     This configures the context with just a URL
-    and not an Engine, though an Engine is acceptable
-    here as well.  By skipping the Engine creation
-    we don't even need a DBAPI to be available.
- 
+    and not an Engine.  
+    
     Calls to context.execute() here emit the given string to the
     script output.
  

@@ -289,7 +289,7 @@ p, span, label, li, h1, h2, h3, h4, h5, h6 {
 """, unsafe_allow_html=True)
  
  
-# ── Helpers ────────────────────────────────────────────────────────────────────
+# Helpers 
  
 def auth_headers():
     token = st.session_state.get("token")
@@ -332,7 +332,7 @@ def format_relevance(score):
     return f"{score:.0%}"
  
  
-# ── Session state ────────────────────────────────────────────────────────────
+# Session state 
 if "token" not in st.session_state:
     st.session_state.token = None
 if "messages" not in st.session_state:
@@ -347,9 +347,6 @@ if "auth_mode" not in st.session_state:
     st.session_state.auth_mode = "login"
  
  
-# ═══════════════════════════════════════════════════════════════════════════
-# LOGIN / REGISTER SCREEN
-# ═══════════════════════════════════════════════════════════════════════════
  
 if not st.session_state.token:
     st.markdown('<div class="login-wrap">', unsafe_allow_html=True)
@@ -408,10 +405,8 @@ if not st.session_state.token:
     st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
  
- 
-# ═══════════════════════════════════════════════════════════════════════════
 # MAIN APP (only reached if logged in)
-# ═══════════════════════════════════════════════════════════════════════════
+
  
 health = api_get("/health")
 online = health is not None

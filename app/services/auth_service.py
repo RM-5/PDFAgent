@@ -14,10 +14,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.database import get_db
 from app.db.models import User
 
-# ── Config — set these in your .env ───────────────────────────────────────────
+# Config: set these in your .env 
 SECRET_KEY  = os.getenv("SECRET_KEY", "change-this-to-a-random-secret-in-env")
 ALGORITHM   = os.getenv("ALGORITHM", "HS256")
-EXPIRE_MIN  = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "1440"))   # 24 hours default
+EXPIRE_MIN  = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "1440"))   
 
 pwd_context   = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")

@@ -11,7 +11,7 @@ import ollama
 try:
     from langchain_ollama import ChatOllama
 except ImportError:
-    ChatOllama = None  # type: ignore[misc, assignment]
+    ChatOllama = None  
 
 try:
     from langchain_core.prompts import PromptTemplate
@@ -95,7 +95,6 @@ class QAChain:
         total     = self.vs.stats()["total_chunks"]
 
         if broad:
-            # Modest boost only — avoid pulling half the index
             effective = min(max(requested, 12), MAX_RETRIEVAL_K, total)
         else:
             effective = min(max(requested, 5), MAX_RETRIEVAL_K, total)
@@ -117,7 +116,7 @@ class QAChain:
             prompt_tokens, num_ctx, num_predict,
         )
 
-        # qwen3.5 is a thinking model — without think=False the response field is empty
+        # qwen3.5 is a thinking model. So, without think=False the response field is empty
         try:
             result = ollama.generate(
                 model=LLM_MODEL,
